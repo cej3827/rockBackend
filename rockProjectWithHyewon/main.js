@@ -1,23 +1,14 @@
 const express = require('express');
-const app = express();
+const app =  express();
 
-// app.get('/', function(req, res) {
-//     res.send("m감자입니까.");
-// });
+const questionRouter = require('./routes/question');
 
-// app.get('/test', function(req, res) {
-//     res.send("안녕 ㅋㅋ");
-// });
+app.use('/question', questionRouter);
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+// app.listen(4000, function(){
+//   console.log('Connected Server, 4000 Port');
+// })
 
-//라우트 객체 생성
-const mainRouter = require('./routes/index');
-//라우트 설정
-app.use('/', mainRouter);
-
-const PORT = 8080;
-app.listen(PORT, function() {
-    console.log("Listening on port: ", PORT);
-});
+app.listen(8080, function(){
+    console.log('Connected Server, 8080 Port');
+  })
