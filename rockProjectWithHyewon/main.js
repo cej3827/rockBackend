@@ -1,5 +1,9 @@
 const express = require('express');
+const http = require("http");
+const bodyParser = require("body-parser");
 const app =  express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const questionRouter = require('./routes/question');
 const groupRouter = require('./routes/group');
