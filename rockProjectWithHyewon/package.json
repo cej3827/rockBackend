@@ -17,5 +17,9 @@
     "hasher": "^1.2.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.5.2"
+  },
+  "devDependencies": {
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   }
 }

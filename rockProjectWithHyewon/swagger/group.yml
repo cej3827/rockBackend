@@ -1,0 +1,27 @@
+components:
+  schemas:
+    Group:
+      properties:
+        member:
+          type: array
+          items:
+            type: object
+            properties:
+              user_NAME:
+                type: string
+              color:
+                type: string
+              answer_Status:
+                type: boolean
+          description: 닉네임, 컬러, 답변여부
+        checkAll:
+          type: boolean
+          description: 멤버 모두 체크했는지
+        todayQuestion:
+          type: object
+          properties:
+            Q_NUM:
+              type: integer
+            Q_DETAIL:
+              type: string
+          description: 오늘의 질문

@@ -1,0 +1,12 @@
+components:
+  schemas:
+    todayQuestion:
+      properties:
+        message:
+          type: string
+        newQuestionId:
+          type: integer
+    Answer:
+      properties:
+        message:
+          type: string
