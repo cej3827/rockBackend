@@ -1,6 +1,7 @@
 const db = require('./database');
 
 module.exports = {
+    //오늘의 질문
     GetTodayQuestion: async function(groupId) {
         try {
             // 그룹 테이블에서 최근 질문 번호 가져오기
@@ -45,6 +46,7 @@ module.exports = {
         }
     },
 
+    //다음 질문 받는 동작
     UpdateQuestionAndReset: async function(groupId) {
         try {
             // 현재 최근 질문 번호 가져오기
@@ -93,6 +95,27 @@ module.exports = {
             return { newQuestionId: newQuestionId, success: true, error: null };
         } catch (error) {
             return { newQuestionId: null, success: false, error: error };
+        }
+    },
+
+    //답변하기 
+    SaveAnswer: async function(Q_NUM, A_DETAIL, member_ID, group_ID, A_IMG = null) {
+        try {
+            // 답변 테이블에 새로운 답변 추가
+            const insertAnswerQuery = "INSERT INTO Answer (Q_NUM, A_DETAIL, A_DATE, A_IMG, member_ID, group_ID) VALUES (?, ?, NOW(), ?, ?, ?)";
+            await new Promise((resolve, reject) => {
+                db.query(insertAnswerQuery, [Q_NUM, A_DETAIL, A_IMG, member_ID, group_ID], function(err, result) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+
+            return { success: true, error: null };
+        } catch (error) {
+            return { success: false, error: error };
         }
     },
 };
