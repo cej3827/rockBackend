@@ -3,7 +3,7 @@ const db = require('./database');
 
 module.exports = {
     // async 응답이 오면 함수가 실행
-    // 그룹 ID로 답변된 List 불러오기
+    // userID로 사용자 접속 그룹 불러오기
     userGroup: async function (userID) {
         try {
             const result = await new Promise((resolve, reject) => {
@@ -23,10 +23,12 @@ module.exports = {
         }
     },
 
+    // 회원가입 함수
+    // userID가 key값으로 설정되어 있어 동일한 userID가 존재하면 error를 반환한다.
     signUp: async function (userID, password, phoneNum, birthDay) {
         try {
             const result = await new Promise((resolve, reject) => {
-                db.query('INSERT INTO User (user_ID, user_PW) VALUES(?,?)', [userID, password], function (err, rows, fields) {
+                db.query('INSERT INTO User (user_ID, user_PW, user_PHONE, user_BIRTHDAY) VALUES(?,?,?,?)', [userID, password,phoneNum,birthDay], function (err, rows, fields) {
                     if (err) {
                         reject(err);
                     } else {
@@ -41,6 +43,7 @@ module.exports = {
         }
     },
 
+    // 로그인 시 동작하는 함수
     login: async function (userID, password) {
         const PW = 0;
         try {
