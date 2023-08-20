@@ -28,16 +28,10 @@ module.exports = {
         }
     },
 
-    calenderInsert: async function (groupID, month) {
+    calenderInsert: async function (plan) {
         try {
             const result = await new Promise((resolve, reject) => {
-                db.query(" SELECT C.sche_DETAIL, M.user_NAME, C.sche_START, C.sche_FINISH, C.sche_TYPE, " +
-                "CASE WHEN C.sche_TYPE = TRUE THEN M.color ELSE G.color_Key END AS color " +
-                "FROM `Calender` C " +
-                "JOIN `Member` M ON C.member_ID = M.member_ID AND ? = M.group_ID " +
-                "JOIN `userGroup` G ON ? = G.group_ID " +
-                "WHERE MONTH(C.sche_START) = ?;",
-                [groupID,groupID,month], function (err, rows, fields) {
+                db.query("INSERT INTO Calender Set ?", [plan], function (err, rows, fields) {
                     if (err) {
                         reject(err);
                     } else {

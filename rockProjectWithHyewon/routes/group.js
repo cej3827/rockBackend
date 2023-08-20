@@ -44,4 +44,68 @@ router.post('/', async function(req, res) {
     }
 });
 
+router.post('/create', async function(req, res){
+    const groupID = req.body.group_ID;
+    const groupName = req.body.group_Name;
+    const groupIMG = req.body.group_IMG;
+    const cnt = req.body.cnt;
+    const userID = req.body.user_ID;
+    const colorKey = req.body.color_Key;
+
+    var group = {
+        group_ID : groupID,
+        group_Name : groupName,
+        group_IMG : groupIMG,
+        cnt : cnt,
+        user_ID : userID,
+        color_Key : colorKey,
+        invite_Code : null,
+    }
+
+    const conn = await groupModel.makeGroup(group);
+
+    if(conn.error)
+        res.send('그룹 생성 실패.');
+    else
+        res.send('로그인 성공.')
+});
+
+router.post('/member', async function(req, res){
+    const member_ID = req.body.member_ID;
+    const group_ID = req.body.group_ID;
+    const user_ID = req.body.user_ID;
+    const user_Name = req.body.user_Name;
+    const answer_Status = req.body.answer_Status;
+    const color = req.body.color;
+    const member_IMG = req.body.member_IMG;
+
+    var member = {
+        member_ID : member_ID,
+        group_ID : group_ID,
+        user_ID : user_ID,
+        user_Name : user_Name,
+        answer_Status : answer_Status,
+        color : color,
+        member_IMG : member_IMG,
+    }
+
+    const conn = await groupModel.makeMember(member);
+
+    if(conn.error)
+        res.send('멤버 생성 실패.');
+    else
+        res.send('로그인 성공.')
+});
+
+router.post('/code', async function(req, res){
+    const groupID = req.body.group_ID;
+
+    const conn = await groupModel.groupCode(groupID);
+
+    if(conn.error)
+        res.send('DB ERROR');
+    else
+        res.send('초대 코드 출력')
+});
+
 module.exports = router;

@@ -1,5 +1,6 @@
 const { response } = require('express');
 const db = require('./database');
+const { name } = require('ejs');
 
 module.exports = {
     // async 응답이 오면 함수가 실행
@@ -68,4 +69,5 @@ module.exports = {
             return { result: null, error: error };
         }
     },
+    
 }

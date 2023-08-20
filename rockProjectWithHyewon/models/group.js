@@ -25,6 +25,7 @@ module.exports = {
             return { result: null, error: error };
         }
     },
+
     //모두 답변했는지 check
     CheckAllAnswered: async function(groupId) {
         try {
@@ -53,4 +54,69 @@ module.exports = {
             return { allAnswered: false, error: error };
         }
     },
+
+    makeGroup: async function (group) {
+        try {
+            const result = await new Promise((resolve, reject) => {
+                db.query('INSERT INTO userGroup SET ?', [group], function (err, rows, fields) {
+                    if (err) {
+                        reject(err);
+                        console.log(err);
+                    } else {
+                        resolve(rows);
+                        console.log(rows);
+                    }
+                });
+            });
+            return { result: result, error: null};
+        } catch (error) {
+            return { result: null, error: error };
+        }
+    },
+
+    makeMember: async function (member) {
+        try {
+            const result = await new Promise((resolve, reject) => {
+                db.query('INSERT INTO Member SET ?', [member], function (err, rows, fields) {
+                    if (err) {
+                        reject(err);
+                        console.log(err);
+                    } else {
+                        resolve(rows);
+                        console.log(rows);
+                    }
+                });
+            });
+            return { result: result, error: null};
+        } catch (error) {
+            return { result: null, error: error };
+        }
+    },
+
+    groupCode: async function (groupID) {
+        try {
+            const result = await new Promise((resolve, reject) => {
+                db.query('SELECT invite_Code FROM userGroup WHERE group_ID = ?', [groupID], async function (err, rows, fields) {
+                    if (err) {
+                        reject(err);
+                        console.log(err);
+                    } else {
+                        if (rows.length > 0 && rows[0].invite_Code === null) {
+                            // If invite_Code is null, generate a random code
+                            const randomCode = Math.random().toString(36).substring(2, 10); // Generate an 8-character random code
+                            await db.query('UPDATE userGroup SET invite_Code = ? WHERE group_ID = ?', [randomCode, groupID]);
+                            resolve({ generatedCode: randomCode });
+                            console.log('Generated invite code:', randomCode);
+                        } else {
+                            resolve({ existingCode: rows[0].invite_Code });
+                            console.log('Existing invite code:', rows[0].invite_Code);
+                        }
+                    }
+                });
+            });
+            return { result: result, error: null};
+        } catch (error) {
+            return { result: null, error: error };
+        }
+    }
 }
