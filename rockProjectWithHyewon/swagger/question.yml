@@ -1,0 +1,11 @@
+components:
+  schemas:
+    Question:
+      properties:
+        group_ID:
+          type: integer
+    questionList:
+      prorerties:
+        group_ID:
+          type: integer
+        

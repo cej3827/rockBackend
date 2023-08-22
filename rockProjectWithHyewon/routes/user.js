@@ -7,7 +7,7 @@ app.use(express.json());
 
 const UserModel = require('../models/user');
 
-router.post('/signin', async function(req, res){
+router.post('/', async function(req, res){
     console.log(req.body);
     console.log(req.body.user_ID);
 
@@ -28,7 +28,7 @@ router.post('/signup', async function(req, res){
         res.send('이미 존재하는 아이디입니다.');
     }
     else
-        res.send('회원가입 되었습니다.');;
+        res.send('회원가입 되었습니다.');
 });
 
 router.post('/login', async function(req, res){

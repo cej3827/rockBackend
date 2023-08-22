@@ -11,8 +11,8 @@ const options = {
           },
           servers: [
             {
-              url: "http://localhost:8080",
-            }
+              url: "http://43.202.31.89:8080", 
+            },
           ],
     },
     apis: ['./routes/*.js', './swagger/*']

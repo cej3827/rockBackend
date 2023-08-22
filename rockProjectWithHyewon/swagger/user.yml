@@ -1,0 +1,23 @@
+components:
+  schemas:
+    User:
+      properties:
+        user_ID:
+          type: string
+    signupUser:
+      properties:
+        user_ID:
+          type: string
+        user_PW:
+          type: string
+        user_PHONE:
+          type: string
+        user_BIRTHDAY:
+          type: string
+    loginUser:
+      properties:
+        user_ID:
+          type: string
+        user_PW:
+          type: string
+        

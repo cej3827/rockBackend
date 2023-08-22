@@ -25,3 +25,39 @@ components:
             Q_DETAIL:
               type: string
           description: 오늘의 질문
+    createGroup:
+      properties:
+        group_ID:
+          type: integer
+        group_Name:
+          type: string
+        group_IMG:
+          type: string
+        cnt:
+          type: integer
+        user_ID:
+          type: string
+        color_Key:
+          type: string
+        invite_Code:
+          type: null
+    createMember:
+      properties:
+        member_ID:
+          type: integer
+        group_ID:
+          type: integer
+        user_ID:
+          type: string
+        member_NAME:
+          type: string
+        answer_Status:
+          type: boolean
+        color:
+          type: string
+        group_IMG:
+          type: string
+    createGroupCode:
+      properties:
+        group_ID:
+          type: integer
