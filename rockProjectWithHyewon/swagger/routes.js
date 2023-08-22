@@ -5,7 +5,7 @@
  *      tags:
  *      - 메인 화면
  *      summary: '메인 화면'
- *      description: 멤버들 닉네임, 답변 여부, 멤버 색상, 모두 답변 했는지 여부, 오늘의 질문
+ *      description: body에 그룹ID넣어서 보내줘
  *      responses:
  *       200:
  *        description: 성공
@@ -183,7 +183,7 @@
  *      tags:
  *      - 다음 질문
  *      summary: '다음 질문'
- *      description:
+ *      description: body 그룹ID 넣어 보내주면 다음 질문으로 넘어가게 
  *      responses:
  *       200:
  *        description: 성공
@@ -198,7 +198,7 @@
  *      tags:
  *      - 답변하기
  *      summary: '답변하기'
- *      description:
+ *      description: body에 넣어야 할 거 - 질문 번호, 답변 내용, 멤버 아이디, 그룹 아이디
  *      responses:
  *       200:
  *        description: 성공
