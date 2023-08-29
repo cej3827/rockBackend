@@ -77,21 +77,21 @@ router.post('/create', async function(req, res){
 });
 
 router.post('/member', async function(req, res){
-    //const member_ID = req.body.member_ID;
+    const member_ID = req.body.member_ID;
     const group_ID = req.body.group_ID;
     const user_ID = req.body.user_ID;
-    const user_Name = req.body.user_Name;
+    const user_NAME = req.body.user_NAME;
     const answer_Status = req.body.answer_Status;
     const color = req.body.color;
     const member_IMG = req.body.member_IMG;
 
     var member = {
-        //member_ID : member_ID,
+        member_ID : member_ID,
         group_ID : group_ID,
         user_ID : user_ID,
-        user_NAME : user_Name,
-        answer_Status : answer_Status,
+        user_NAME : user_NAME,
         color : color,
+        answer_Status : answer_Status,
         member_IMG : member_IMG,
     }
 
