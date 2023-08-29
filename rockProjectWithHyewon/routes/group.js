@@ -89,7 +89,7 @@ router.post('/member', async function(req, res){
         //member_ID : member_ID,
         group_ID : group_ID,
         user_ID : user_ID,
-        user_Name : user_Name,
+        user_NAME : user_Name,
         answer_Status : answer_Status,
         color : color,
         member_IMG : member_IMG,
