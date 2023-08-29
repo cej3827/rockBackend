@@ -45,7 +45,7 @@ router.post('/', async function(req, res) {
 });
 
 router.post('/create', async function(req, res){
-    const groupID = req.body.group_ID;
+    // const groupID = req.body.group_ID;
     const groupName = req.body.group_Name;
     const groupIMG = req.body.group_IMG;
     const cnt = req.body.cnt;
@@ -53,7 +53,7 @@ router.post('/create', async function(req, res){
     const colorKey = req.body.color_Key;
 
     var group = {
-        group_ID : groupID,
+        // group_ID : groupID,
         group_Name : groupName,
         group_IMG : groupIMG,
         cnt : cnt,
@@ -62,16 +62,22 @@ router.post('/create', async function(req, res){
         invite_Code : null,
     }
 
-    const conn = await groupModel.makeGroup(group);
+    try {
+        const conn = await groupModel.makeGroup(group);
 
-    if(conn.error)
-        res.send('그룹 생성 실패.');
-    else
-        res.send('로그인 성공.')
+        if (conn.error) {
+            res.send('그룹 생성 실패.');
+        } else {
+            const insertedGroupId = conn.result.group_ID; // Get the inserted group_ID
+            res.send({insertedGroupId});
+        }
+    } catch (error) {
+        res.send('오류 발생: ' + error.message);
+    }
 });
 
 router.post('/member', async function(req, res){
-    const member_ID = req.body.member_ID;
+    //const member_ID = req.body.member_ID;
     const group_ID = req.body.group_ID;
     const user_ID = req.body.user_ID;
     const user_Name = req.body.user_Name;
@@ -80,7 +86,7 @@ router.post('/member', async function(req, res){
     const member_IMG = req.body.member_IMG;
 
     var member = {
-        member_ID : member_ID,
+        //member_ID : member_ID,
         group_ID : group_ID,
         user_ID : user_ID,
         user_Name : user_Name,
@@ -94,7 +100,7 @@ router.post('/member', async function(req, res){
     if(conn.error)
         res.send('멤버 생성 실패.');
     else
-        res.send('로그인 성공.')
+        res.send('멤버 생성 성공.')
 });
 
 router.post('/code', async function(req, res){

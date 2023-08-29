@@ -63,8 +63,9 @@ module.exports = {
                         reject(err);
                         console.log(err);
                     } else {
-                        resolve(rows);
-                        console.log(rows);
+                        const insertedGroupId = rows.insertId; // Get the inserted group_ID
+                        resolve({ group_ID: insertedGroupId }); // Return the inserted group_ID
+                        console.log('Inserted group_ID:', insertedGroupId);
                     }
                 });
             });
