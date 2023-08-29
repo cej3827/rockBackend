@@ -119,5 +119,31 @@ module.exports = {
         } catch (error) {
             return { result: null, error: error };
         }
+    },
+
+    //초대코드 일치하는가?
+    invite: async function (invite_Code) {
+        try {
+            const query = "SELECT group_ID FROM userGroup WHERE invite_Code = ?";
+            const result = await new Promise((resolve, reject) => {
+                db.query(query, [invite_Code], function(err, rows, fields) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(rows);
+                    }
+                });
+            });
+
+            if (result.length === 0) {
+                throw new Error("no data");
+            }
+
+            const group_ID = result[0];
+
+            return { group_ID: group_ID, success: true, error: null };
+        } catch (error) {
+            return { newQuestionId: null, success: false, error: error };
+        }
     }
 }

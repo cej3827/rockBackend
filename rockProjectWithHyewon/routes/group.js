@@ -114,4 +114,28 @@ router.post('/code', async function(req, res){
         res.send('초대 코드 출력')
 });
 
+router.post('/invite', async function(req, res) {
+    try {
+        const invite_Code = req.body.invite_Code;
+
+        if (!invite_Code) {
+            throw new Error("invite_Code is missing");
+        }
+
+        const result = await groupModel.invite(invite_Code);
+
+        if (result.error) {
+            throw result.error;
+        }
+
+        if (result.success) {
+            res.json(result.group_ID);
+        } else {
+            res.send("실패..")
+        }
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+})
+
 module.exports = router;
