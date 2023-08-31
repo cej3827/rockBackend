@@ -3,7 +3,11 @@ const express = require("express");
 var app = express();
 const router = express.Router();
 
-app.use(express.json())
+app.use(express.urlencoded({
+    extended: true
+}));
+
+app.use(express.json());
 
 const groupModel = require('../models/todayQuestion');
 const todayQuestion = require("../models/todayQuestion");

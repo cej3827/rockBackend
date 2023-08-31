@@ -3,6 +3,11 @@ const express = require('express');
 var app = express();
 
 const router = express.Router();
+
+app.use(express.urlencoded({
+    extended: true
+}));
+
 app.use(express.json());
 
 const QuestionModel = require('../models/question');
