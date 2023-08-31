@@ -3,6 +3,10 @@ const bodyParser = require("body-parser");
 const app =  express();
 
 app.use(bodyParser.urlencoded({extended : false}));
+app.use(express.urlencoded({
+    extended: true
+}));
+app.use(express.json());
 
 // body 사용시 필수
 
