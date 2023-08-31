@@ -3,6 +3,11 @@ const express = require('express');
 var app = express();
 
 const router = express.Router();
+
+app.use(express.urlencoded({
+    extended: true
+}));
+
 app.use(express.json());
 
 const UserModel = require('../models/user');
@@ -65,8 +70,10 @@ router.post('/login', async function(req, res){
             res.send('존재하지 않는 아이디 입니다.');
         else if(conn.error == 'Invalid password')
             res.send('비밀번호가 일치하지 않습니다.');
-        else
+        else{
             res.send('로그인 성공.');
+            
+        }
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
