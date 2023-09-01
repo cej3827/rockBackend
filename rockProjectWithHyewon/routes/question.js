@@ -20,12 +20,12 @@ router.post('/', async function(req, res){
             throw new Error("Missing required fields");
         }
 
-        const conn = await QuestionModel.ListQ(groupID);
+        const list = await QuestionModel.ListQ(groupID);
 
-        if(conn.error)
-            res.send('답변된 질문 불러오기 실패');
+        if(list.error)
+            res.json({message : '답변된 질문 불러오기 실패'});
         else
-            res.send('답변된 질문 불러오기 성공');
+            res.json({message : '답변된 질문 불러오기 성공', data : list.result});
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -41,13 +41,12 @@ router.get('/list/:num', async function(req, res){
             throw new Error("Missing required fields");
         }
 
-        const conn = await QuestionModel.ListQ1(params.num, groupID);
+        const answer = await QuestionModel.ListQ1(params.num, groupID);
 
-        if(conn.error)
-            res.send('질문 답변 모두 불러오기 실패');
+        if(answer.error)
+            res.json({message : '질문 답변 불러오기 실패'});
         else{
-            res.send('질문 답변 모두 불러오기 성공');
-            res.send("list nums : " + params.num + "groupID : "+ groupID);
+            res.json({message : '질문 답변 불러오기 성공', data : answer.result});
         }
     } catch (error) {
         res.status(400).json({ error: error.message });

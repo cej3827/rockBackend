@@ -106,10 +106,10 @@ module.exports = {
                             // If invite_Code is null, generate a random code
                             const randomCode = Math.random().toString(36).substring(2, 10); // Generate an 8-character random code
                             await db.query('UPDATE userGroup SET invite_Code = ? WHERE group_ID = ?', [randomCode, groupID]);
-                            resolve({ generatedCode: randomCode });
+                            resolve({ Code: randomCode });
                             console.log('Generated invite code:', randomCode);
                         } else {
-                            resolve({ existingCode: rows[0].invite_Code });
+                            resolve({ Code: rows[0].invite_Code });
                             console.log('Existing invite code:', rows[0].invite_Code);
                         }
                     }

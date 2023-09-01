@@ -2,10 +2,24 @@ components:
   schemas:
     Question:
       properties:
-        group_ID:
-          type: integer
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties: 
+              Q_DETAIL: 
+                type: string
     questionList:
-      prorerties:
-        group_ID:
-          type: integer
+       properties:
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties: 
+              code: 
+                type: string
         

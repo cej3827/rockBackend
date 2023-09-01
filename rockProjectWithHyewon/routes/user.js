@@ -23,9 +23,9 @@ router.post('/', async function(req, res){
         const conn = await UserModel.userGroup(userID);
 
         if(conn.error)
-            res.send('그룹 불러오기 실패');
+            res.json({message:'그룹 불러오기 실패'});
         else
-            res.send('그룹 불러오기 성공');
+            res.json({message:'그룹 불러오기 성공'});
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -46,10 +46,10 @@ router.post('/signup', async function(req, res){
 
         if(conn.error){
             console.log(conn.error);
-            res.send('이미 존재하는 아이디입니다.');
+            res.json({message: '이미 존재하는 아이디입니다.'});
         }
         else
-            res.send('회원가입 되었습니다.');
+            res.json({message: '회원가입 되었습니다.'});
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -67,11 +67,11 @@ router.post('/login', async function(req, res){
         const conn = await UserModel.login(userID, password);
 
         if(conn.error == 'User not found')
-            res.send('존재하지 않는 아이디 입니다.');
+            res.json({ message : '존재하지 않는 아이디 입니다.'});
         else if(conn.error == 'Invalid password')
-            res.send('비밀번호가 일치하지 않습니다.');
+            res.json({ message : '비밀번호가 일치하지 않습니다.'});
         else{
-            res.send('로그인 성공.');
+            res.send({ message: '로그인 성공.'});
             
         }
     } catch (error) {

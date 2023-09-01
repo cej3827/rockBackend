@@ -49,31 +49,27 @@ router.post('/', async function(req, res) {
 });
 
 router.post('/create', async function(req, res){
-    // const groupID = req.body.group_ID;
     const groupName = req.body.group_Name;
     const groupIMG = req.body.group_IMG;
-    const cnt = req.body.cnt;
     const userID = req.body.user_ID;
     const colorKey = req.body.color_Key;
 
     var group = {
-        // group_ID : groupID,
         group_Name : groupName,
         group_IMG : groupIMG,
-        cnt : cnt,
+        cnt : 1,
         user_ID : userID,
         color_Key : colorKey,
         invite_Code : null,
     }
 
     try {
-        const conn = await groupModel.makeGroup(group);
+        const createGroup = await groupModel.makeGroup(group);
 
-        if (conn.error) {
-            res.send('그룹 생성 실패.');
+        if (createGroup.error) {
+            res.json({message : '그룹 생성 실패.'});
         } else {
-            const insertedGroupId = conn.result.group_ID; // Get the inserted group_ID
-            res.send({insertedGroupId});
+            res.json({message: '그룹 생성 성공.', data : createGroup.result});
         }
     } catch (error) {
         res.send('오류 발생: ' + error.message);
@@ -81,41 +77,36 @@ router.post('/create', async function(req, res){
 });
 
 router.post('/member', async function(req, res){
-    const member_ID = req.body.member_ID;
     const group_ID = req.body.group_ID;
     const user_ID = req.body.user_ID;
     const user_NAME = req.body.user_NAME;
-    const answer_Status = req.body.answer_Status;
     const color = req.body.color;
-    const member_IMG = req.body.member_IMG;
 
     var member = {
-        member_ID : member_ID,
         group_ID : group_ID,
         user_ID : user_ID,
         user_NAME : user_NAME,
         color : color,
-        answer_Status : answer_Status,
-        member_IMG : member_IMG,
+        answer_Status : 0,
     }
 
     const conn = await groupModel.makeMember(member);
 
     if(conn.error)
-        res.send('멤버 생성 실패.');
+        res.json({message : '멤버 생성 실패.'});
     else
-        res.send('멤버 생성 성공.')
+        res.json({message : '멤버 생성 성공.'});
 });
 
 router.post('/code', async function(req, res){
     const groupID = req.body.group_ID;
 
-    const conn = await groupModel.groupCode(groupID);
+    const code = await groupModel.groupCode(groupID);
 
-    if(conn.error)
-        res.send('DB ERROR');
+    if(code.error)
+        res.json({message : '초대 코드 출력 실패'});
     else
-        res.send('초대 코드 출력')
+        res.send({message : '초대 코드 출력 성공', data : code.result})
 });
 
 router.post('/invite', async function(req, res) {
@@ -135,7 +126,7 @@ router.post('/invite', async function(req, res) {
         if (result.success) {
             res.json(result.group_ID);
         } else {
-            res.send("실패..")
+            res.json({message : "실패.."})
         }
     } catch (error) {
         res.status(400).json({ error: error.message });

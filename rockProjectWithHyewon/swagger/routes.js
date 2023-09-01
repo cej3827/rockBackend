@@ -21,6 +21,25 @@
  *      - 그룹 생성
  *      summary: '그룹 생성'
  *      description: 그룹 생성 성공 메시지
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              group_Name:
+ *                type: string
+ *                description: "그룹 이름"
+ *              group_IMG:
+ *                type: string
+ *                description: "그룹 이미지"
+ *              user_ID:
+ *                type: string
+ *                description: "사용자 아이디"
+ *              color_Key:
+ *                type: string
+ *                description: "그룹 색상"
  *      responses:
  *       200:
  *        description: 성공
@@ -35,6 +54,25 @@
  *      - 멤버 생성
  *      summary: '멤버 생성'
  *      description: 멤버 생성 성공 메시지, insertedGroupId(groupID값) 반환
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              group_ID:
+ *                type: string
+ *                description: "그룹 아이디"
+ *              user_ID:
+ *                type: string
+ *                description: "사용자 아이디"
+ *              user_NAME:
+ *                type: string
+ *                description: "멤버 이름"
+ *              color:
+ *                type: string
+ *                description: "멤버 색상"
  *      responses:
  *       200:
  *        description: 성공
@@ -50,6 +88,16 @@
  *      - 그룹 코드 생성
  *      summary: '그룹 코드 생성'
  *      description: 그룹 코드
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              group_ID:
+ *                type: integer
+ *                description: "그룹 아이디"
  *      responses:
  *       200:
  *        description: 성공
@@ -141,12 +189,37 @@
  *              $ref: '#/components/schemas/calenderAdd'
  * 
  * @swagger
+ * /question:
+ *   post:
+ *     tags:
+ *     - 질문 리스트
+ *     summary: '답변된 질문 리스트'
+ *     description:
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/x-www-form-urlencoded:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              group_ID:
+ *                type: integer
+ *                description: "그룹 아이디"
+ *     responses:
+ *       "200":
+ *        description: 성공
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Question'
+ * 
+ * @swagger
  *  /question/{num}:
- *    post:
+ *    get:
  *      tags:
  *      - 질문 답변 불러오기
  *      summary: '질문 답변 불러오기'
- *      description: 멤버 닉네임, 질문 내용
+ *      description:
  *      parameters:
  *       - name: num
  *         in: path
@@ -154,28 +227,23 @@
  *         description: '조회하려는 질문 번호 (예: 8)'
  *         schema:
  *           type: integer
- *      responses:
- *       200:
- *        description: 성공
+ *      requestBody:
+ *        required: true
  *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/questionList'
- * 
- * @swagger
- *  /question:
- *    post:
- *      tags:
- *      - 질문 리스트
- *      summary: '답변된 질문 리스트'
- *      description: 답변된 질문 리스트
+ *          application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               group_ID:
+ *                 type: integer
+ *                 description: "그룹 아이디"
  *      responses:
- *       200:
- *        description: 성공
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Question'
+ *        "200":
+ *         description: 성공
+ *         content:
+ *           application/json:
+ *             schema: 
+ *               $ref: '#/components/schemas/questionList' 
  * 
  * @swagger
  *  /todayQuestion/update:
