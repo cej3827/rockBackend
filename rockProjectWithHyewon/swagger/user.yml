@@ -2,22 +2,22 @@ components:
   schemas:
     User:
       properties:
-        user_ID:
+        message:
           type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              group_Name:
+                type: string
+              group_IMG:
+                type: string
     signupUser:
       properties:
-        user_ID:
-          type: string
-        user_PW:
-          type: string
-        user_PHONE:
-          type: string
-        user_BIRTHDAY:
+        message:
           type: string
     loginUser:
       properties:
-        user_ID:
-          type: string
-        user_PW:
-          type: string
-        
+        message:
+          type: string        

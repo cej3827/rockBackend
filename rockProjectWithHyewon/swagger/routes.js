@@ -107,12 +107,46 @@
  *              $ref: '#/components/schemas/createGroupCode'
  * 
  * @swagger
+ *  /group/load:
+ *    post:
+ *      tags:
+ *      - 그룹 접속
+ *      summary: '그룹 접속하기'
+ *      description: 그룹 코드
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              group_ID:
+ *                type: integer
+ *                description: "그룹 아이디"
+ *      responses:
+ *       200:
+ *        description: 성공
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/loadGroup'
+ * 
+ * @swagger
  *  /user:
  *    post:
  *      tags:
- *      - 시작 화면
- *      summary: '접속된 그룹을 보여줌(로그인 되어있는 경우)'
- *      description: 그룹 이름, 그룹 이미지
+ *      - 로그인 성공시 user이 접속하고 있는 그룹 불러오기
+ *      summary: '접속된 그룹'
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              user_ID:
+ *                type: integer
+ *                description: "사용자 아이디"
  *      responses:
  *       200:
  *        description: 성공
@@ -122,27 +156,24 @@
  *              $ref: '#/components/schemas/User'
  * 
  * @swagger
- *  /user/signup:
- *    post:
- *      tags:
- *      - 회원 가입
- *      summary: '회원 가입'
- *      description: 회원가입 성공 메시지 전송
- *      responses:
- *       200:
- *        description: 성공
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/signupUser'
- * 
- * @swagger
  *  /user/login:
  *    post:
  *      tags:
  *      - 로그인
  *      summary: '로그인'
- *      description: 로스인 성공 메시지 전송
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              user_ID:
+ *                type: string
+ *                description: 사용자 아이디
+ *              user_PW:
+ *                type: string
+ *                description: 사용자 비밀번호
  *      responses:
  *       200:
  *        description: 성공
@@ -152,12 +183,44 @@
  *              $ref: '#/components/schemas/loginUser'
  * 
  * @swagger
+ *  /user/signup:
+ *    post:
+ *      tags:
+ *      - 회원 가입
+ *      summary: '회원 가입'
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              user_ID:
+ *                type: string
+ *                description: 사용자 아이디
+ *              user_PW:
+ *                type: string
+ *                description: 사용자 비밀번호
+ *              user_PHONE:
+ *                type: string
+ *                description: 사용자 전화번호
+ *              user_BIRTHDAY:
+ *                type: string
+ *                description: 사용자 생년월일
+ *      responses:
+ *       200:
+ *        description: 성공
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/signupUser'
+ * 
+ * @swagger
  *  /calender/{month}:
  *    post:
  *      tags:
  *      - 캘린더 일정 불러오기
  *      summary: '캘린더 월마다 불러오기'
- *      description: 일정 내용, 유저 이름, 스케줄 시작, 스케줄 끝, 스케줄 타입, 스케줄 색상
  *      parameters:
  *       - name: month
  *         in: path
@@ -165,6 +228,16 @@
  *         description: '조회하려는 월 (예: 8)'
  *         schema:
  *           type: integer
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              group_ID:
+ *                type: integer
+ *                description: 그룹 아이디
  *      responses:
  *       200:
  *        description: 성공
@@ -179,7 +252,31 @@
  *      tags:
  *      - 일정 추가
  *      summary: '일정 추가'
- *      description: 보내는 값 - 일정 아이디, 일정 내용, 일정 시작일, 일정 종료일, 그룹 아이디, 스케줄 타입(0:그룹, 1:개인), 멤버 아이디
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              sche_DETAIL:
+ *                type: string
+ *                description: 일정 내용
+ *              sche_START:
+ *                type: datetime
+ *                description: 일정 시작일
+ *              sche_FINISH:
+ *                type: datetime
+ *                description: 일정 종료일
+ *              group_ID:
+ *                type: integer
+ *                description: 그룹 아이디
+ *              sche_TYPE:
+ *                type: integer
+ *                description: 일정 타입(0:그룹, 1:개인)
+ *              member_ID:
+ *                type: integer
+ *                description: 멤버 아이디
  *      responses:
  *       200:
  *        description: 성공

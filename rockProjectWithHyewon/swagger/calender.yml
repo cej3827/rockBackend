@@ -2,22 +2,27 @@ components:
   schemas:
     Calender:
       properties:
-        group_ID:
-          type: integer
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              sche_DETIAL:
+                type: string
+              user_NAME :
+                type: string
+              sche_START : 
+                type: string
+              sche_FINISH : 
+                type: string
+              sche_TYPE:
+                type: boolean
+              color:
+                type: string
     calenderAdd:
-      prorerties:
-        sche_ID : 
-          type: integer
-        sche_DETAIL : 
+      properties:
+        message:
           type: string
-        sche_START : 
-          type: string
-        sche_FINISH : 
-          type: string
-        group_ID : 
-          type: integer 
-        sche_TYPE:
-          type: boolean
-        member_ID:
-          type: integer
         

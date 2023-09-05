@@ -34,6 +34,7 @@ module.exports = {
                 db.query("INSERT INTO Calender Set ?", [plan], function (err, rows, fields) {
                     if (err) {
                         reject(err);
+                        console.log(err);
                     } else {
                         resolve(rows);
                         console.log(rows);

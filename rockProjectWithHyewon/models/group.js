@@ -2,17 +2,17 @@ const db = require('./database');
 
 module.exports = {
     //그룹 아이디 받아서 멤버의 닉네임, 색상, 답변 여부 select
-    ListM: async function(groupId) {
+    ListM: async function (groupId) {
         try {
             const query = "SELECT user_NAME, color, answer_Status FROM Member WHERE group_ID = ?";
             const result = await new Promise((resolve, reject) => {
-                db.query(query, [groupId], function(err, rows, fields) {
+                db.query(query, [groupId], function (err, rows, fields) {
                     if (err) {
                         reject(err);
                     } else {
                         resolve(rows);
                     }
-                    console.log(rows); 
+                    console.log(rows);
                 });
             });
 
@@ -27,11 +27,11 @@ module.exports = {
     },
 
     //모두 답변했는지 check
-    CheckAllAnswered: async function(groupId) {
+    CheckAllAnswered: async function (groupId) {
         try {
             const query = "SELECT COUNT(*) AS TotalMembers, SUM(answer_Status) AS AnsweredMembers FROM Member WHERE group_ID = ?";
             const result = await new Promise((resolve, reject) => {
-                db.query(query, [groupId], function(err, rows, fields) {
+                db.query(query, [groupId], function (err, rows, fields) {
                     if (err) {
                         reject(err);
                     } else {
@@ -69,7 +69,7 @@ module.exports = {
                     }
                 });
             });
-            return { result: result, error: null};
+            return { result: result, error: null };
         } catch (error) {
             return { result: null, error: error };
         }
@@ -88,7 +88,7 @@ module.exports = {
                     }
                 });
             });
-            return { result: result, error: null};
+            return { result: result, error: null };
         } catch (error) {
             return { result: null, error: error };
         }
@@ -106,16 +106,16 @@ module.exports = {
                             // If invite_Code is null, generate a random code
                             const randomCode = Math.random().toString(36).substring(2, 10); // Generate an 8-character random code
                             await db.query('UPDATE userGroup SET invite_Code = ? WHERE group_ID = ?', [randomCode, groupID]);
-                            resolve({ Code: randomCode });
+                            resolve({ code: randomCode });
                             console.log('Generated invite code:', randomCode);
                         } else {
-                            resolve({ Code: rows[0].invite_Code });
+                            resolve({ code: rows[0].invite_Code });
                             console.log('Existing invite code:', rows[0].invite_Code);
                         }
                     }
                 });
             });
-            return { result: result, error: null};
+            return { result: result, error: null };
         } catch (error) {
             return { result: null, error: error };
         }
@@ -126,7 +126,7 @@ module.exports = {
         try {
             const query = "SELECT group_ID FROM userGroup WHERE invite_Code = ?";
             const result = await new Promise((resolve, reject) => {
-                db.query(query, [invite_Code], function(err, rows, fields) {
+                db.query(query, [invite_Code], function (err, rows, fields) {
                     if (err) {
                         reject(err);
                     } else {
@@ -144,6 +144,25 @@ module.exports = {
             return { group_ID: group_ID, success: true, error: null };
         } catch (error) {
             return { newQuestionId: null, success: false, error: error };
+        }
+    },
+
+    loadGroup: async function (group_ID) {
+        try {
+            const result = await new Promise((resolve, reject) => {
+                db.query('SELECT * FROM userGroup Where group_ID = ?', [group_ID], function (err, rows, fields) {
+                    if (err) {
+                        reject(err);
+                        console.log(err);
+                    } else {
+                        resolve(rows);
+                        console.log(rows);
+                    }
+                });
+            });
+            return { result: result, error: null };
+        } catch (error) {
+            return { result: null, error: error };
         }
     }
 }

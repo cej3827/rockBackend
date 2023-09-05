@@ -25,23 +25,23 @@ router.post('/', async function(req, res){
         if(conn.error)
             res.json({message:'그룹 불러오기 실패'});
         else
-            res.json({message:'그룹 불러오기 성공'});
+            res.json({message:'그룹 불러오기 성공', data : conn.result});
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
 router.post('/signup', async function(req, res){
+    const userID = req.body.user_ID;
+    const password = req.body.user_PW;
+    const phoneNum = req.body.user_PHONENUMBER;
+    const birthDay = req.body.user_BIRTHDAY;
+
+    if (!userID || !password || !phoneNum || !birthDay) {
+        throw new Error("Missing required fields");
+    }
+
     try {
-        const userID = req.body.user_ID;
-        const password = req.body.user_PW;
-        const phoneNum = req.body.user_PHONENUMBER;
-        const birthDay = req.body.user_BIRTHDAY;
-
-        if (!userID || !password || !phoneNum || !birthDay) {
-            throw new Error("Missing required fields");
-        }
-
         const conn = await UserModel.signUp(userID, password, phoneNum, birthDay);
 
         if(conn.error){
@@ -56,14 +56,14 @@ router.post('/signup', async function(req, res){
 });
 
 router.post('/login', async function(req, res){
+    const userID = req.body.user_ID;
+    const password = req.body.user_PW;
+
+    if (!userID || !password) {
+        throw new Error("Missing required fields");
+    }
+
     try {
-        const userID = req.body.user_ID;
-        const password = req.body.user_PW;
-
-        if (!userID || !password) {
-            throw new Error("Missing required fields");
-        }
-
         const conn = await UserModel.login(userID, password);
 
         if(conn.error == 'User not found')

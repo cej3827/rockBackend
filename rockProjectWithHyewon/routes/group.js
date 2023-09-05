@@ -13,7 +13,7 @@ const groupModel = require('../models/group');
 const todayQuestionModel = require('../models/todayQuestion');
 const todayQuestion = require("../models/todayQuestion");
 
-router.post('/', async function(req, res) {
+router.post('/', async function (req, res) {
     try {
         const groupID = req.body.group_ID;
 
@@ -42,74 +42,95 @@ router.post('/', async function(req, res) {
             todayQuestion: todayQuestionResult.todaysQuestion,
         };
         res.json(responseData);
-    } 
+    }
     catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-router.post('/create', async function(req, res){
+router.post('/create', async function (req, res) {
     const groupName = req.body.group_Name;
     const groupIMG = req.body.group_IMG;
     const userID = req.body.user_ID;
     const colorKey = req.body.color_Key;
 
+    if (!groupName | !userID | !colorKey) {
+        throw new Error("Missing required fields");
+    }
+
     var group = {
-        group_Name : groupName,
-        group_IMG : groupIMG,
-        cnt : 1,
-        user_ID : userID,
-        color_Key : colorKey,
-        invite_Code : null,
+        group_Name: groupName,
+        group_IMG: groupIMG,
+        cnt: 1,
+        user_ID: userID,
+        color_Key: colorKey,
+        invite_Code: null,
     }
 
     try {
         const createGroup = await groupModel.makeGroup(group);
 
         if (createGroup.error) {
-            res.json({message : '그룹 생성 실패.'});
+            res.json({ message: '그룹 생성 실패.' });
         } else {
-            res.json({message: '그룹 생성 성공.', data : createGroup.result});
+            res.json({ message: '그룹 생성 성공.', data: createGroup.result });
         }
     } catch (error) {
         res.send('오류 발생: ' + error.message);
     }
 });
 
-router.post('/member', async function(req, res){
+router.post('/member', async function (req, res) {
     const group_ID = req.body.group_ID;
     const user_ID = req.body.user_ID;
     const user_NAME = req.body.user_NAME;
     const color = req.body.color;
 
-    var member = {
-        group_ID : group_ID,
-        user_ID : user_ID,
-        user_NAME : user_NAME,
-        color : color,
-        answer_Status : 0,
+    if (!groupID | !user_ID | !user_NAME | !color) {
+        throw new Error("Missing required fields");
     }
 
-    const conn = await groupModel.makeMember(member);
+    var newMember = {
+        group_ID: group_ID,
+        user_ID: user_ID,
+        user_NAME: user_NAME,
+        color: color,
+        answer_Status: 0,
+    }
 
-    if(conn.error)
-        res.json({message : '멤버 생성 실패.'});
-    else
-        res.json({message : '멤버 생성 성공.'});
+    try {
+        const member = await groupModel.makeMember(newMember);
+
+        if (member.error)
+            res.json({ message: '멤버 생성 실패.' });
+        else
+            res.json({ message: '멤버 생성 성공.' });
+    } catch (error) {
+        res.send('오류 발생: ' + error.message);
+    }
 });
 
-router.post('/code', async function(req, res){
+router.post('/code', async function (req, res) {
     const groupID = req.body.group_ID;
 
-    const code = await groupModel.groupCode(groupID);
+    if (!groupID) {
+        throw new Error("Missing required fields");
+    }
 
-    if(code.error)
-        res.json({message : '초대 코드 출력 실패'});
-    else
-        res.send({message : '초대 코드 출력 성공', data : code.result})
+    try {
+        const code = await groupModel.groupCode(groupID);
+
+        if (code.error) {
+            throw code.error;
+        }
+        else
+            res.send({ message: '초대 코드 출력 성공', data: code.result })
+    } catch (error) {
+        res.send('오류 발생: ' + error.message);
+    }
 });
 
-router.post('/invite', async function(req, res) {
+router.post('/invite', async function (req, res) {
     try {
         const invite_Code = req.body.invite_Code;
 
@@ -126,11 +147,31 @@ router.post('/invite', async function(req, res) {
         if (result.success) {
             res.json(result.group_ID);
         } else {
-            res.json({message : "실패.."})
+            res.json({ message: "실패.." })
         }
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-})
+});
+
+router.post('/load', async function (req, res) {
+    const groupID = req.body.group_ID;
+
+    if (!groupID) {
+        throw new Error("Missing required fields");
+    }
+
+    try {
+        const load = await groupModel.loadGroup(groupID);
+
+        if (load.error) {
+            throw load.error;
+        }
+        else
+            res.send({ message: '초대 코드 출력 성공', data: load.result })
+    } catch (error) {
+        res.send('오류 발생: ' + error.message);
+    }
+});
 
 module.exports = router;

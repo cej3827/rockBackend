@@ -47,3 +47,26 @@ components:
             properties:
               code:
                 type: string
+    loadGroup:
+      properties:
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              group_ID:
+                type: integer
+              group_Name:
+                type: string
+              group_IMG:
+                type: string
+              user_ID:
+                type: string
+              color_Key:
+                type: string
+              cnt:
+                type: integer
+              invite_Code:
+                type: string
